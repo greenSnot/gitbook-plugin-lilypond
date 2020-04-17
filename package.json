@@ -1,0 +1,30 @@
+{
+  "dependencies": {},
+  "description": "PlantUML plugin for GitBook",
+  "devDependencies": {
+    "gitbook-core": "^4.0.0-alpha.1",
+    "gitbook-tester": "^1.4.3",
+    "mocha": "^3.5.0"
+  },
+  "directories": {},
+  "engines": {
+    "gitbook": "*"
+  },
+  "homepage": "https://github.com/vowstar/gitbook-plugin-uml",
+  "keywords": [
+    "lilypond",
+    "plugin",
+    "gitbook"
+  ],
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "name": "gitbook-plugin-lilypond",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vowstar/gitbook-plugin-uml.git"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/mocha --reporter spec --timeout 15000"
+  },
+  "version": "1.0.0"
+}
