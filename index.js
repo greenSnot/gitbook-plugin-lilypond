@@ -10,25 +10,34 @@ module.exports = {
       if (umls instanceof Array) {
         for (var i = 0, len = umls.length; i < len; i++) {
           const tmpfile = path.join(tmpdir, Math.random().toString(16).substr(2));
+          const tmpsvg = tmpfile + '.svg';
           fs.writeFileSync(tmpfile, umls[i].replace(/```lilypond/i, '').replace(/```\s*$/i, ''));
-          try {
-            child_process.execSync(`cd ${tmpdir} && lilypond -dbackend=svg ${tmpfile}`);
-          } catch (e) {
+          function on_error(e) {
             page.content = page.content.replace(
               umls[i],
               '```\n' + e.message + '```\n',
             );
-            fs.unlinkSync(tmpfile);
+            fs.existsSync(tmpfile) && fs.unlinkSync(tmpfile);
+            fs.existsSync(tmpsvg) && fs.unlinkSync(tmpsvg);
+          }
+          try {
+            child_process.execSync(`cd ${tmpdir} && lilypond -dbackend=svg ${tmpfile}`);
+          } catch (e) {
+            on_error(e);
             continue;
           }
-          const tmpsvg = tmpfile + '.svg';
-          const lilypond_svg = fs.readFileSync(tmpsvg).toString();
-          page.content = page.content.replace(
-            umls[i],
-            lilypond_svg,
-          );
-          fs.unlinkSync(tmpfile);
-          fs.unlinkSync(tmpsvg);
+          try {
+            const lilypond_svg = fs.readFileSync(tmpsvg).toString();
+            page.content = page.content.replace(
+              umls[i],
+              lilypond_svg,
+            );
+          } catch (e) {
+            on_error(e);
+            continue;
+          }
+          fs.existsSync(tmpfile) && fs.unlinkSync(tmpfile);
+          fs.existsSync(tmpsvg) && fs.unlinkSync(tmpsvg);
         }
       }
       return page;
