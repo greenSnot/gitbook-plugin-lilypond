@@ -6,7 +6,7 @@ const child_process = require('child_process');
 module.exports = {
   hooks: {
     "page:before": function(page) {
-      const umls = page.content.match(/```lilypond\n(.|\n)*```/gim);
+      const umls = page.content.match(/```lilypond\n(.|\n)*?```/gim);
       if (umls instanceof Array) {
         for (var i = 0, len = umls.length; i < len; i++) {
           const tmpfile = path.join(tmpdir, Math.random().toString(16).substr(2));
