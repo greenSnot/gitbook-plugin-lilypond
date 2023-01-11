@@ -4,7 +4,7 @@
   "devDependencies": {
     "gitbook-core": "^4.0.0-alpha.1",
     "gitbook-tester": "^1.4.3",
-    "mocha": "^3.5.0"
+    "mocha": "^10.2.0"
   },
   "directories": {},
   "engines": {
